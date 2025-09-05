@@ -1055,6 +1055,16 @@ def _demo() -> None:
                 f"{opp['event'][:40]:40s}  {opp['probability']:.2f}  {opp['odds']:.2f}  {opp['implied_probability']:.2f}  "
                 f"{opp['expected_value']:.3f}  {opp['kelly_fraction']:.2f}  ${opp['recommended_bet']:.2f}"
             )
+                    # Send Telegram notification for each positive EV opportunity
+        try:
+            message = agent._format_notification_message(opp)
+                        sent = agent.send_telegram_notification(message)
+            if sent:
+                print(f"Telegram notification sent for {opp['event']}")
+            else:
+                print(f"Failed to send Telegram notification for {opp['event']}")
+        except Exception as e:
+            print(f"Error sending notification: {e}")
     else:
         print("No positive EV opportunities were found in the synthetic dataset.")
 
@@ -1076,6 +1086,17 @@ def _demo() -> None:
                         f"{opp['team'][:25]:25s}  {opp['bookmaker'][:20]:20s}  {opp['expected_value']:.3f}  "
                         f"{opp['kelly_fraction']:.2f}  ${opp['recommended_bet']:.2f}"
                     )
+
+                    # Send Telegram notification for each positive EV opportunity
+        try:
+            message = agent._format_notification_message(opp)
+                       sent = agent.send_telegram_notification(message)
+            if sent:
+                print(f"Telegram notification sent for {opp['event']}")
+            else:
+                print(f"Failed to send Telegram notification for {opp['event']}")
+        except Exception as e:
+            print(f"Error sending notification: {e}")
             else:
                 print("No positive EV opportunities found in the real dataset.")
         except Exception as e:
