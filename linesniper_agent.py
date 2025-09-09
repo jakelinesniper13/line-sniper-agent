@@ -166,7 +166,7 @@ class LineSniperAgent:
         # model will be set by calling :meth:`train_nfl_model`.  The break‑even
         # probability reflects the fact that most point‑spread wagers are priced
         # at approximately –110 on both sides, which implies a win rate of
-        # roughly 52.38 % is needed just to break even【916453135453690†L294-L323】.  It is
+        # roughly 52.38 % is needed just to break even【916453135453690†L294-L323】.  It is
         # computed as 1 / (1 + 100/110) and will be used when scanning for
         # positive expected value opportunities.
         self.nfl_model = None  # type: Any
@@ -867,7 +867,7 @@ class LineSniperAgent:
         and any rows with missing feature values are dropped.  The method
         trains a logistic regression model using scikit‑learn, stores it in
         ``self.nfl_model`` and returns the area under the ROC curve (AUC) on
-        a 20 % holdout for reference.  A higher AUC indicates better ability
+        a 20 % holdout for reference.  A higher AUC indicates better ability
         to discriminate between covers and non‑covers.
 
         Parameters
@@ -1055,18 +1055,7 @@ def _demo() -> None:
                 f"{opp['event'][:40]:40s}  {opp['probability']:.2f}  {opp['odds']:.2f}  {opp['implied_probability']:.2f}  "
                 f"{opp['expected_value']:.3f}  {opp['kelly_fraction']:.2f}  ${opp['recommended_bet']:.2f}"
             )
-                        # Send Telegram notification for each positive EV opportunity
-                 try:
-                    message = agent._format_notification_message(opp)
-                    sent = agent.send_telegram_notification(message)
-                    if sent:
-                        print(f"Telegram notification sent for {opp['event']}")
-                    else:
-                        print(f"Failed to send Telegram notification for {opp['event']}")
-                except Exception as e:
-            print(f"Error sending notification: {e}")
- 
-      
+    else:
         print("No positive EV opportunities were found in the synthetic dataset.")
 
     # Attempt to analyse a real dataset if available
@@ -1087,19 +1076,8 @@ def _demo() -> None:
                         f"{opp['team'][:25]:25s}  {opp['bookmaker'][:20]:20s}  {opp['expected_value']:.3f}  "
                         f"{opp['kelly_fraction']:.2f}  ${opp['recommended_bet']:.2f}"
                     )
-
-             try:
-                message = agent._format_notification_message(opp)
-                    sent = agent.send_telegram_notification(message)
-                    if sent:
-                        print(f"Telegram notification sent for {opp['team']}")
-                    else:
-                            print(f"Failed to send Telegram notification for {opp['team']}")
-                    except Exception as e:
-                    print(f"Error sending notification: {e}")
-               else:
-            print("No positive EV opportunities were found in the real dataset.")
-
+            else:
+                print("No positive EV opportunities found in the real dataset.")
         except Exception as e:
             print(f"Error analysing real dataset: {e}")
 
